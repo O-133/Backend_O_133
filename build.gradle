@@ -1,0 +1,61 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '4.0.2'
+    id 'io.spring.dependency-management' version '1.1.7'
+}
+
+group = 'com.example'
+version = '0.0.1-SNAPSHOT'
+description = 'demo'
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+// Google Cloud 버전 관리를 위한 BOM 설정 (필수)
+dependencyManagement {
+    imports {
+        mavenBom "com.google.cloud:libraries-bom:26.29.0"
+    }
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-web' // webmvc 포함됨
+    implementation 'org.springframework.boot:spring-boot-starter-session-jdbc'
+
+    // DB 관련
+    runtimeOnly 'com.h2database:h2'
+    runtimeOnly 'com.mysql:mysql-connector-j'
+
+    // Lombok
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+
+    // DevTools
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+
+    // ★★★ Gemini (Vertex AI) 사용을 위한 의존성 ★★★
+    implementation 'com.google.cloud:google-cloud-vertexai'
+
+    // Test
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+    //gradle
+    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.3'
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
