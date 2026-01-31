@@ -1,12 +1,11 @@
 plugins {
     id 'java'
-    id 'org.springframework.boot' version '4.0.2'
+    id 'org.springframework.boot' version '3.4.1'
     id 'io.spring.dependency-management' version '1.1.7'
 }
 
 group = 'com.example'
 version = '0.0.1-SNAPSHOT'
-description = 'demo'
 
 java {
     toolchain {
@@ -24,7 +23,7 @@ repositories {
     mavenCentral()
 }
 
-// Google Cloud 버전 관리를 위한 BOM 설정 (필수)
+// Google Cloud 라이브러리 버전 관리 (BOM)
 dependencyManagement {
     imports {
         mavenBom "com.google.cloud:libraries-bom:26.29.0"
@@ -32,28 +31,30 @@ dependencyManagement {
 }
 
 dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter-web' // webmvc 포함됨
-    implementation 'org.springframework.boot:spring-boot-starter-session-jdbc'
-
-    // DB 관련
+    // Web & DB
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     runtimeOnly 'com.h2database:h2'
     runtimeOnly 'com.mysql:mysql-connector-j'
 
-    // Lombok
+    // Lombok & Tools
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
-
-    // DevTools
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
 
-    // ★★★ Gemini (Vertex AI) 사용을 위한 의존성 ★★★
-    implementation 'com.google.cloud:google-cloud-vertexai'
+    // ★ Gemini (Vertex AI)
+    implementation 'com.google.cloud:google-cloud-vertexai:1.6.0'
 
-    // Test
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    implementation 'com.google.code.gson:gson:2.11.0'
 
-    //gradle
+    // ★ 디버깅 (로그, SQL파라미터 확인)
+    implementation 'org.springframework.boot:spring-boot-starter-aop'
+    implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.9.0'
+
+    // ★ Swagger (API 문서)
     implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.3'
+
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
 tasks.named('test') {
