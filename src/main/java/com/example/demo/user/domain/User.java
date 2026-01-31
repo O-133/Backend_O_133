@@ -52,4 +52,15 @@ public class User extends BaseTimeEntity {
         UserDisease userDisease = new UserDisease(this, disease);
         this.userDiseases.add(userDisease);
     }
+    public void updateProfile(int age, double height, double weight, boolean isCooksAtHome, List<String> medications) {
+        this.age = age;
+        this.height = height;
+        this.weight = weight;
+        this.isCooksAtHome = isCooksAtHome;
+        this.medications = (medications != null) ? medications : new ArrayList<>();
+    }
+
+    public void clearDiseases() {
+        this.userDiseases.clear();
+    }
 }

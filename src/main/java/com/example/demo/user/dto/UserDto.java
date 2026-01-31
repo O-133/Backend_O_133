@@ -28,4 +28,27 @@ public class UserDto {
         private Integer id;
         private String nickname;
     }
+    @Getter
+    @NoArgsConstructor(access = AccessLevel.PROTECTED)
+    public static class UpdateRequest {
+        private int age;
+        private double height;
+        private double weight;
+        private List<String> diseaseNames;
+        private List<String> medications;
+        private boolean isCooksAtHome;
+    }
+
+    @Getter
+    @Builder
+    public static class MyPageResponse {
+        private String nickname;
+        private String gender;
+        private int age;
+        private double height;
+        private double weight;
+        private List<String> diseaseNames;
+        private List<String> medications;
+        private boolean isCooksAtHome;
+    }
 }
