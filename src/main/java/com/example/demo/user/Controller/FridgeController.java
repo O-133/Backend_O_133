@@ -19,7 +19,7 @@ public class FridgeController {
     @PostMapping("/{userId}")
     public ApiResponse<String> addIngredients(@PathVariable Integer userId,
                                               @RequestBody FridgeDto.AddRequest request) {
-        fridgeService.addIngredients(userId, request.getIngredientIds());
+        fridgeService.addIngredients(userId, request.getIngredientNames());
         return ApiResponse.ok("선택한 재료들이 냉장고에 추가되었습니다.");
     }
 
@@ -34,7 +34,13 @@ public class FridgeController {
     @PostMapping("/{userId}/delete")
     public ApiResponse<String> deleteIngredients(@PathVariable Integer userId,
                                                  @RequestBody FridgeDto.DeleteRequest request) {
-        fridgeService.deleteIngredients(userId, request.getIngredientIds());
+        fridgeService.deleteIngredients(userId, request.getIngredientNames());
         return ApiResponse.ok("선택한 재료들이 삭제되었습니다.");
+    }
+    @PostMapping("/{userId}/ocr")
+    public ApiResponse<String> processOcr(@PathVariable Integer userId,
+                                          @RequestBody List<String> ocrTexts) {
+        fridgeService.addIngredientsByOcr(userId, ocrTexts);
+        return ApiResponse.ok("영수증 분석 결과가 냉장고에 반영되었습니다.");
     }
 }

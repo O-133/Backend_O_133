@@ -29,13 +29,13 @@ public class FridgeDto {
     @Getter
     @NoArgsConstructor(access = AccessLevel.PROTECTED) //
     public static class AddRequest {
-        private List<Integer> ingredientIds;
+        private List<String> ingredientNames;
     }
 
     @Getter
     @NoArgsConstructor(access = AccessLevel.PROTECTED)
     public static class DeleteRequest {
-        private List<Integer> ingredientIds;
+        private List<String> ingredientNames;
     }
 
     // 단건 재료 정보

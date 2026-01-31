@@ -26,7 +26,7 @@ public class FridgeService {
      * 냉장고 재료 추가
      */
     @Transactional
-    public void addIngredients(Integer userId, List<Integer> ingredientIds) {
+    public void addIngredients(Integer userId, List<String> ingredientNames) {
         //todo:
 //        User user = userRepository.findById(userId)
 //                .orElseThrow(() -> new IllegalArgumentException("유저를 찾을 수 없습니다."));
@@ -50,8 +50,8 @@ public class FridgeService {
      * 냉장고 재료 삭제
      */
     @Transactional
-    public void deleteIngredients(Integer userId, List<Integer> ingredientIds) {
-        fridgeRepository.deleteAllByUserIdAndIngredientIdIn(userId, ingredientIds);
+    public void deleteIngredients(Integer userId, List<String> ingredientNames) {
+        fridgeRepository.deleteAllByUserIdAndIngredientNameIn(userId, ingredientNames);
     }
 
     public List<FridgeDto.Info> getFridgeList(Integer userId) {
@@ -60,6 +60,30 @@ public class FridgeService {
         return fridges.stream()
                 .map(FridgeDto.Info::from)
                 .toList();
+    }
+    @Transactional
+    public void addIngredientsByOcr(Integer userId, List<String> ocrTexts) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
+
+        List<Ingredient> masterIngredients = ingredientRepository.findAll();
+
+        for (String text : ocrTexts) {
+            masterIngredients.stream()
+                    .filter(master -> text.contains(master.getName()))
+                    .findFirst()
+                    .ifPresent(matchedIngredient -> {
+                        boolean exists = fridgeRepository.existsByUserIdAndIngredientName(
+                                userId, matchedIngredient.getName());
+
+                        if (!exists) {
+                            fridgeRepository.save(Fridge.builder()
+                                    .user(user)
+                                    .ingredient(matchedIngredient)
+                                    .build());
+                        }
+                    });
+        }
     }
 
 }
