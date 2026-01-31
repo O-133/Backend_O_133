@@ -10,9 +10,9 @@ import java.util.List;
 
 @Repository
 public interface FridgeRepository extends JpaRepository<Fridge, FridgeId> {
-    boolean existsByUserIdAndIngredientId(Integer userId, Integer ingredientId);
+    boolean existsByUserIdAndIngredientName(Integer userId, String ingredientName);
 
-    void deleteAllByUserIdAndIngredientIdIn(Integer userId, List<Integer> ingredientIds);
+    void deleteAllByUserIdAndIngredientNameIn(Integer userId, List<String> ingredientNames);
 
     List<Fridge> findAllByUserId(Integer userId);
 }
