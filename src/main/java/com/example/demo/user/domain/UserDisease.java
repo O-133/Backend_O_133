@@ -1,5 +1,6 @@
 package com.example.demo.user.domain;
 
+import com.example.demo.disease.domain.Disease;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -14,16 +15,20 @@ public class UserDisease {
     @EmbeddedId
     private UserDiseaseId id;
 
-    @MapsId("userId")
+    @MapsId("userId") // UserDiseaseId 내의 userId 필드와 매핑
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", insertable = false, updatable = false)
+    @JoinColumn(name = "user_id")
     private User user;
 
-    @Column(name = "disease_id", insertable = false, updatable = false)
-    private Integer diseaseId;
+    @MapsId("diseaseId") // UserDiseaseId 내의 diseaseId 필드와 매핑
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "disease_id")
+    private Disease disease;
 
-    public UserDisease(UserDiseaseId UserDiseaseId, user) {
+    // 명확한 생성을 위해 연관 엔티티를 모두 받는 생성자 사용
+    public UserDisease(User user, Disease disease) {
+        this.id = new UserDiseaseId(user.getId(), disease.getId());
         this.user = user;
-        this.id = UserDiseaseId.getDiseaseId();
+        this.disease = disease;
     }
 }

@@ -8,23 +8,23 @@ import lombok.*;
 import java.util.ArrayList;
 import java.util.List;
 
+// user/domain/User.java
 @Entity
 @Getter
 @Table(name = "user")
-@NoArgsConstructor(access = AccessLevel.PROTECTED) //
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class User extends BaseTimeEntity {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(nullable = false, length = 100)
     private String nickname;
-
     private String gender;
     private int age;
     private double height;
     private double weight;
     private boolean isCooksAtHome;
 
+    // cascade 설정으로 User 저장 시 UserDisease도 함께 저장됨
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<UserDisease> userDiseases = new ArrayList<>();
 
@@ -46,16 +46,10 @@ public class User extends BaseTimeEntity {
     }
 
     /**
-     * 연관관계 편의 메서드
-     * 중복을 제거하고 타입을 안정적으로 처리합니다.
+     * 연관관계 편의 메서드: Setter 대신 비즈니스 로직으로 관계 설정
      */
-    public void addUserDisease(Disease disease) {
-        UserDiseaseId userDiseaseId = new UserDiseaseId(
-                this.id.intValue(),
-                disease.getId().intValue()
-        );
-
-        UserDisease userDisease = new UserDisease(userDiseaseId, this, disease);
+    public void addDisease(Disease disease) {
+        UserDisease userDisease = new UserDisease(this, disease);
         this.userDiseases.add(userDisease);
     }
 }
