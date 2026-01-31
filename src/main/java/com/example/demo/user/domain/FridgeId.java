@@ -14,7 +14,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode
-public class FrigeId implements Serializable {
+public class FridgeId implements Serializable {
 
     @Column(name = "id")
     private Integer userId;

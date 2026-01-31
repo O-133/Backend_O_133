@@ -1,7 +1,9 @@
 package com.example.demo.user.domain;
 
+import com.example.demo.ingredient.domain.Ingredient;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
@@ -9,29 +11,35 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
 
+// user/domain/Fridge.java
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name = "frige")
+@Table(name = "fridge")
 @EntityListeners(AuditingEntityListener.class)
-public class Frige {
+public class Fridge {
 
     @EmbeddedId
-    private FrigeId id;
+    private FridgeId id;
 
     @MapsId("userId")
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id", insertable = false, updatable = false)
+    @JoinColumn(name = "id") // User 테이블의 PK와 매핑
     private User user;
 
-    @Column(name = "ingredient_id", insertable = false, updatable = false)
-    private Integer ingredientId;
+    @MapsId("ingredientId")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ingredient_id") // Ingredient 테이블의 PK와 매핑
+    private Ingredient ingredient;
 
     @CreatedDate
     @Column(name = "create_at", nullable = false, updatable = false)
     private LocalDateTime createAt;
 
-    public Frige(FrigeId id) {
-        this.id = id;
+    @Builder
+    public Fridge(User user, Ingredient ingredient) {
+        this.id = new FridgeId(user.getId(), ingredient.getId());
+        this.user = user;
+        this.ingredient = ingredient;
     }
 }
