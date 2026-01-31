@@ -5,6 +5,9 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -17,6 +20,9 @@ public class Disease {
 
     @Column(nullable = false, length = 100)
     private String name;
+
+    @OneToMany(mappedBy = "disease", cascade = CascadeType.ALL)
+    private List<DiseaseIngredient> diseaseIngredients = new ArrayList<>();
 
     public Disease(String name) {
         this.name = name;

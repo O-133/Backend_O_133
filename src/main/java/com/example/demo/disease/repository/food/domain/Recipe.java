@@ -1,4 +1,4 @@
-package com.example.demo.food.domain;
+package com.example.demo.disease.repository.food.domain;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;

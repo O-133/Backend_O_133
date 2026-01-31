@@ -1,6 +1,6 @@
-package com.example.demo.food.dto;
+package com.example.demo.disease.repository.food.dto;
 
-import com.example.demo.food.domain.Recipe;
+import com.example.demo.disease.repository.food.domain.Recipe;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

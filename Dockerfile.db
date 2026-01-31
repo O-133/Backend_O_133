@@ -1,0 +1,5 @@
+FROM mysql:8.0
+COPY ./init.sql /docker-entrypoint-initdb.d/init.sql
+ENV MYSQL_DATABASE=o133
+ENV MYSQL_ROOT_PASSWORD=root
+RUN echo "[mysqld]\ncharacter-set-server=utf8mb4\ncollation-server=utf8mb4_unicode_ci" > /etc/mysql/conf.d/my.cnf

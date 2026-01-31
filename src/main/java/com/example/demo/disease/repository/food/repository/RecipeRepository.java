@@ -1,6 +1,6 @@
-package com.example.demo.food.repository;
+package com.example.demo.disease.repository.food.repository;
 
-import com.example.demo.food.domain.Recipe;
+import com.example.demo.disease.repository.food.domain.Recipe;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

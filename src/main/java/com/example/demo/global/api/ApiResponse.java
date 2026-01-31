@@ -25,7 +25,7 @@ public class ApiResponse<T> {
         return new ApiResponse<>(true, message, null);
     }
 
-    // 실패 시 (에러 메시지 전송)
+    // 실패 시 (에러 메시지 전송) 
     public static <T> ApiResponse<T> fail(String message) {
         return new ApiResponse<>(false, message, null);
     }

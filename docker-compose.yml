@@ -1,0 +1,42 @@
+services:
+  db:
+    build:
+      context: .
+      dockerfile: Dockerfile.db
+    # [주의] '본인계정명' 부분을 실제 Docker Hub 아이디로 변경하세요.
+    image: minjoon02/o133-db:latest
+    container_name: o133_infra
+    restart: always
+    environment:
+      # MySQL 내부 설정: 루트 비밀번호를 'root'로 설정
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: o133
+    ports:
+      - "3310:3306"
+    volumes:
+      - ./mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-proot"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  app:
+    build: .
+    # [주의] '본인계정명' 부분을 실제 Docker Hub 아이디로 변경하세요.
+    image: minjoon02/o133-app:latest
+    container_name: spring-app
+    ports:
+      - "8080:8080"
+    environment:
+      # Spring Boot가 접속할 DB 정보 (계정: root / 비번: root)
+      - SPRING_DATASOURCE_URL=jdbc:mysql://db:3306/o133?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=root
+      - SPRING_JPA_DATABASE_PLATFORM=org.hibernate.dialect.MySQLDialect
+      - SPRING_DATASOURCE_DRIVER_CLASS_NAME=com.mysql.cj.jdbc.Driver
+    volumes:
+      - ./logs:/app/logs
+    depends_on:
+      db:
+        condition: service_healthy

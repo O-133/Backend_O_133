@@ -1,5 +1,6 @@
-package com.example.demo.food.domain;
+package com.example.demo.disease.repository.food.domain;
 
+import com.example.demo.ingredient.domain.Ingredient;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -19,11 +20,12 @@ public class FoodIngredient {
     @JoinColumn(name = "food_id", nullable = false)
     private Food food;
 
-    @Column(name = "ingredient_id", nullable = false)
-    private Integer ingredientId; // Placeholder until Ingredient entity is created/referenced
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ingredient_id", nullable = false)
+    private Ingredient ingredient;
 
-    public FoodIngredient(Food food, Integer ingredientId) {
+    public FoodIngredient(Food food, Ingredient ingredient) {
         this.food = food;
-        this.ingredientId = ingredientId;
+        this.ingredient = ingredient;
     }
 }
