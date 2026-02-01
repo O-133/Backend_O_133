@@ -16,7 +16,7 @@ import java.io.Serializable;
 @EqualsAndHashCode
 public class FridgeId implements Serializable {
 
-    @Column(name = "id")
+    @Column(name = "user_id") // 'id'에서 'user_id'로 수정!
     private Integer userId;
 
     @Column(name = "ingredient_id")

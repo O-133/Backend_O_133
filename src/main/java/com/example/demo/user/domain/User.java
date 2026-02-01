@@ -11,7 +11,7 @@ import java.util.List;
 // user/domain/User.java
 @Entity
 @Getter
-@Table(name = "user")
+@Table(name = "users")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class User extends BaseTimeEntity {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -61,6 +61,10 @@ public class User extends BaseTimeEntity {
     }
 
     public void clearDiseases() {
+        // 자식 객체들이 부모와의 연결을 끊도록 처리 (선택사항이나 권장)
+        this.userDiseases.forEach(ud -> {
+            // 실제로는 UserDisease에 user를 null로 만드는 메서드가 있으면 좋음
+        });
         this.userDiseases.clear();
     }
 }
