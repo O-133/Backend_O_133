@@ -1,25 +1,22 @@
 package com.example.demo.disease.repository.food.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
+import lombok.*;
 import java.util.List;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder // 빌더를 추가하면 생성자 순서 실수를 방지할 수 있어 안전합니다.
 public class FoodDetails {
     private Integer id;
     private String name;
     private String difficulty;
     private String time;
-    private double matchPercentage;      // 매칭률 (%)
-    private List<String> ownedIngredients;  // 유저가 가진 재료 중 음식에 포함된 것
-    private List<String> missingIngredients; // 음식에 필요하지만 유저에게 없는 것
-    private List<String> effects;
+    private double matchPercentage;
+    private List<String> ownedIngredients;
+    private List<String> missingIngredients;
+    private List<String> effects; // 서비스의 food.getEffect() 리스트를 담을 곳
     private Integer healthNum;
     private Integer calories;
     private String profileImage;
