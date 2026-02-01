@@ -8,8 +8,6 @@ COPY gradle gradle
 COPY build.gradle .
 COPY settings.gradle .
 
-# 종속성 내려받기 (소스 코드 변경 전 캐싱)
-RUN ./gradlew dependencies --no-daemon
 
 # 소스 코드 복사 및 빌드
 COPY src src
