@@ -1,12 +1,10 @@
 package com.example.demo.disease.repository.food.domain;
 
+import com.example.demo.global.common.StringListConverter;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @Entity
@@ -28,12 +26,30 @@ public class Food {
     @Column(nullable = false, length = 20)
     private String time;
 
+    @Column(nullable = false)
+    private int healthNum;
+
+    @Column(nullable = false)
+    private int calories;
+
+    @Convert(converter = StringListConverter.class)
+    @Column(columnDefinition = "TEXT", nullable = false)
+    private List<String> effect = new ArrayList<>();
+
+    @Column(columnDefinition = "TEXT")
+    private String profile;
+
     @OneToMany(mappedBy = "food", cascade = CascadeType.ALL)
     private List<FoodIngredient> foodIngredients = new ArrayList<>();
 
-    public Food(String name, String difficulty, String time) {
+    @Builder
+    public Food(String name, String difficulty, String time, int healthNum, int calories, List<String> effect, String profile) {
         this.name = name;
         this.difficulty = difficulty;
         this.time = time;
+        this.healthNum = healthNum;
+        this.calories = calories;
+        this.effect = (effect != null) ? effect : new ArrayList<>();
+        this.profile = profile;
     }
 }

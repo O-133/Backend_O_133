@@ -2,6 +2,7 @@ package com.example.demo.disease.repository.food.controller;
 
 import com.example.demo.disease.repository.food.dto.FoodDetails;
 import com.example.demo.disease.repository.food.dto.FoodList;
+import com.example.demo.disease.repository.food.dto.FoodRecipe;
 import com.example.demo.disease.repository.food.service.FoodService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -27,9 +28,13 @@ public class FoodController {
         return null;
     }
 
-    @GetMapping("/get_details")
-    public ResponseEntity<FoodDetails> getDetails(@RequestParam("foodId") Integer foodId) {
-        return null;
+    @GetMapping("/get_deails")
+    public ResponseEntity<FoodDetails> getDetails(@RequestParam("id") Integer id, @RequestParam("foodId") Integer foodId) {
+        return ResponseEntity.status(HttpStatus.OK).body(foodService.getFoodDetails(id, foodId));
     }
 
+    @GetMapping("/get_recipe")
+    public ResponseEntity<FoodRecipe> getRecipe(@RequestParam("foodId") Integer foodId) {
+        return ResponseEntity.status(HttpStatus.OK).body(foodService.getFoodRecipe(foodId));
+    }
 }

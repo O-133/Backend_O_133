@@ -10,5 +10,5 @@ import java.util.List;
 @Repository
 public interface DiseaseIngredientRepository extends JpaRepository<DiseaseIngredient, Integer> {
 
-    Arrays findAllByDiseaseIdIn(List<Integer> diseaseIds);
+    List<DiseaseIngredient> findAllByDiseaseId(Integer id);
 }

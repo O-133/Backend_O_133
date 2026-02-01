@@ -35,6 +35,7 @@ services:
       - SPRING_DATASOURCE_PASSWORD=root
       - SPRING_JPA_DATABASE_PLATFORM=org.hibernate.dialect.MySQLDialect
       - SPRING_DATASOURCE_DRIVER_CLASS_NAME=com.mysql.cj.jdbc.Driver
+      - GEMINI_API_KEY=AIzaSyA8sH7eRqwkpkpcFvY4V_TIu71IQMCv3VE
     volumes:
       - ./logs:/app/logs
     depends_on:
