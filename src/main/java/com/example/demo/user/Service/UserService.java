@@ -71,12 +71,19 @@ public class UserService {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 유저를 찾을 수 없습니다."));
 
-        // 기본 정보 및 약 정보 업데이트
+        // 1. 질병 정보 초기화
+        // 단순히 clear만 하지 말고, DB에 즉시 반영되도록 강제하거나 명시적 처리가 필요함
+        user.clearDiseases();
+
+        // 중요: 기존 관계를 먼저 완전히 밀어버리기 위해 Flush를 강제하거나,
+        // Dirty Checking이 꼬이지 않도록 saveAndFlush를 사용합니다.
+        userRepository.saveAndFlush(user);
+
+        // 2. 기본 정보 업데이트
         user.updateProfile(request.getAge(), request.getHeight(), request.getWeight(),
                 request.isCooksAtHome(), request.getMedications());
 
-        // 질병 정보 초기화 후 재설정
-        user.clearDiseases();
+        // 3. 새로운 질병 정보 재설정
         if (request.getDiseaseNames() != null) {
             request.getDiseaseNames().forEach(name -> {
                 Disease disease = diseaseRepository.findByName(name)

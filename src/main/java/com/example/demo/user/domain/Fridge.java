@@ -24,7 +24,7 @@ public class Fridge {
 
     @MapsId("userId")
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id") // User 테이블의 PK와 매핑
+    @JoinColumn(name = "user_id") // User 테이블의 PK와 매핑
     private User user;
 
     @MapsId("ingredientId")
